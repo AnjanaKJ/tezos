@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@airgap/beacon-sdk": "^4.3.0",
+    "@taquito/signer": "^20.0.1",
+    "@taquito/taquito": "^20.0.1",
+    "@taquito/tezbridge-signer": "^14.2.0",
+    "bcrypt": "^5.1.1",
+    "bip39": "^3.1.0",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7"
+  }
+}
