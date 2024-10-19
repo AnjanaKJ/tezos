@@ -67,3 +67,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Neue+Machina&display=swap');
+
+/* Or if you're using a custom font file */
+@font-face {
+  font-family: 'Neue Machina';
+  src: url('/path/to/neue-machina.woff2') format('woff2');
+}
