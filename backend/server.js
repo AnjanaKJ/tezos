@@ -4,8 +4,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoute = require('./routes/userRoute');
-const depositeRoute = require('./routes/depositeRoute');
-//const stockRoute = require('./routes/stockRoute');
+const depositRoute = require('./routes/depositRoute');
+const transferRoute = require('./routes/transferRoute');
 //const emailRoute = require('./routes/emailRoute');
 //const companyRoute = require('./routes/companyRoute');
 //const CompanyStock = require('./models/CompanyStock');
@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoute);
-app.use('/api/deposit', depositeRoute);
-//app.use('/api/users', emailRoute);
+app.use('/api/deposit', depositRoute);
+app.use('/api/transfer', transferRoute);
 //app.use('/api/stock', stockRoute);
 //app.use('/api/list', companyRoute);
 
