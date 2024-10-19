@@ -1,19 +1,21 @@
+"use client";
+
 import Lamp from "@/components/ui/lamp";
 import SignupForm from "@/components/example/signup-form-demo";
+import { CardSpotlightDemo } from "@/components/ui/cards/page";
 
 export default function Home() {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen">
       {/* Lamp component */}
-      <Lamp />
+      {/* <Lamp /> */}
 
-      {/* Button */}
-      <div className="relative z-100 mt-12">
-        <button
-          className="px-6 py-3 bg-cyan-500 text-white font-semibold text-lg rounded-lg shadow-lg hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75"
-        >
-          Learn More
-        </button>
+      {/* Row of Cards */}
+      <div className="flex flex-row flex-wrap gap-6 justify-center mt-12">
+        {/* Passing different titles and numbers to each card */}
+        <CardSpotlightDemo title="Plenty" firstNumber={1} secondNumber={10} />
+        <CardSpotlightDemo title="Swap" firstNumber={2} secondNumber={20} />
+        <CardSpotlightDemo title="Stake" firstNumber={3} secondNumber={30} />
       </div>
 
       {/* Signup Form (uncomment if needed) */}
