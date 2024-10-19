@@ -1,9 +1,13 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const { createWallet } = require('../services/walletService');
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 async function registerUser(req, res) {
-    const { email, country, password } = req.body;
+    const { email, password } = req.body;
 
     try {
         const existingUser = await User.findOne({ email });
@@ -17,7 +21,6 @@ async function registerUser(req, res) {
 
         const newUser = new User({
             email,
-            country,
             password: hashedPassword,
             wallet: {
                 publicKeyHash: publicKey,
@@ -42,6 +45,31 @@ async function registerUser(req, res) {
     }
 }
 
+async function loginUser(req, res) {
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+      }
+
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ error: 'Email not found' });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ error: 'Invalid login credentials' });
+      }
+
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+      res.status(200).json({ message: 'Login successful', token });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
 module.exports = {
-  registerUser,
+  registerUser, loginUser
 };
