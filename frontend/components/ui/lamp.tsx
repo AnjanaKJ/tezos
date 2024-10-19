@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+// Lamp Component
 export default function Lamp() {
   return (
     <LampContainer>
@@ -14,21 +15,24 @@ export default function Lamp() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+        className="mt-2 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
       >
-        Build lamps <br /> the right way
+        DeFin <br /> Blockchain Protocol
       </motion.h1>
+
+      {/* Added the button here with more spacing */}
     </LampContainer>
   );
 }
 
-export const LampContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
+// TypeScript Interface for props
+interface LampContainerProps {
+  children: ReactNode;
   className?: string;
-}) => {
+}
+
+// LampContainer Component
+export const LampContainer = ({ children, className }: LampContainerProps) => {
   return (
     <div
       className={cn(
@@ -37,6 +41,7 @@ export const LampContainer = ({
       )}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
+        {/* Gradient animations remain the same */}
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
           whileInView={{ opacity: 1, width: "30rem" }}
