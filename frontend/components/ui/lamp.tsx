@@ -1,6 +1,9 @@
 "use client";
 import React, { ReactNode, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation"; 
+import router from "next/router";
+import Link from "next/link";
 
 // Main Waterfall Component
 export default function Waterfall() {
@@ -115,10 +118,7 @@ const Modal = ({ closeModal }: ModalProps) => {
     closeModal(); // Close modal after action
   };
 
-  const handleSignup = () => {
-    alert("Signup clicked!");
-    closeModal(); // Close modal after action
-  };
+ 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -127,18 +127,22 @@ const Modal = ({ closeModal }: ModalProps) => {
         
         {/* Stacked buttons */}
         <div className="space-y-4"> {/* Adds vertical spacing */}
+        <a href='/signup'>
           <button 
             className="w-full py-5 bg-blue-400 text-white rounded-lg hover:bg-blue-500" // Changed to warm blue
             onClick={handleLogin} // Action for Login button
           >
             Login
           </button>
+          </a>
+          <a href='/signup'>
           <button 
             className="w-full py-5 bg-blue-400 text-white rounded-lg hover:bg-blue-500" // Changed to warm blue
-            onClick={handleSignup} // Action for Signup button
+            // Action for Signup button
           >
             Signup
           </button>
+          </a>
         </div>
 
         <div className="mt-6 text-center">
