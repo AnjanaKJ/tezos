@@ -1,9 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import axios from "axios";
+
+// Global styles for the sparkle effect
+const styles = `
+  .sparkling {
+    background: linear-gradient(45deg, #00f, #8a2be2, #32cd32); /* Blue, Violet, Green */
+    background-size: 400% 400%;
+    animation: sparkle 1s ease-in-out infinite;
+  }
+
+  @keyframes sparkle {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .bg-peach-300 {
+    background-color: #ffe5b4; /* Peach color */
+  }
+`;
 
 export default function Signup() {
   const [isSparkling, setIsSparkling] = useState(false);
@@ -12,6 +31,19 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSignup, setIsSignup] = useState(true); // Toggle between login and signup
+
+  // Adding global styles to the document's head only on the client side
+  useEffect(() => {
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Clean up on unmount
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
 
   const registerUser = async (email: string, password: string) => {
     try {
@@ -28,7 +60,7 @@ export default function Signup() {
 
   const loginUser = async (email: string, password: string) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
+      const response = await axios.post('http://localhost:3001/api/users/login', { email, password });
       if (response.data && response.data.token) {
         const token = response.data.token;
         localStorage.setItem('token', token);
@@ -176,32 +208,3 @@ const LabelInputContainer = ({
     </div>
   );
 };
-
-// Add this CSS to your styles
-const styles = `
-.sparkling {
-  background: linear-gradient(45deg, #00f, #8a2be2, #32cd32); /* Blue, Violet, Green */
-  background-size: 400% 400%;
-  animation: sparkle 1s ease-in-out infinite;
-}
-
-@keyframes sparkle {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.bg-peach-300 {
-  background-color: #ffe5b4; /* Peach color */
-}
-`;
-
-export const addGlobalStyles = () => {
-  const styleSheet = document.createElement("style");
-  styleSheet.type = "text/css";
-  styleSheet.innerText = styles;
-  document.head.appendChild(styleSheet);
-};
-
-// Call this function once when your app initializes
-addGlobalStyles();

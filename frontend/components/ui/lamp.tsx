@@ -1,26 +1,38 @@
 "use client";
 import React, { ReactNode, useState } from "react";
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// Main Component
+// Main Waterfall Component
 export default function Waterfall() {
-  const [isAnimated, setIsAnimated] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <WaterContainer>
-      <motion.h1
-        initial={{ opacity: 0.5, y: 300 }} // Start from below the viewport
-        animate={isAnimated ? { opacity: 1, y: 0 } : {}} // Animate into the center
-        transition={{
-          duration: 3, // Animation duration set to 3 seconds
-          ease: "easeInOut",
-        }}
-        onAnimationComplete={() => setIsAnimated(true)} // Set animation state when complete
-        className="mt-2 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
-      >
-        Unlock the full potential of <br /> WALLETS
-      </motion.h1>
+      {/* Centered Text */}
+      <h1 className="text-center text-4xl font-medium tracking-tight text-white md:text-7xl font-neua-machina">
+        Unlock the full potential of{" "}
+        <span className="text-green-500">WALLETS</span>
+      </h1>
+
+      {/* New Subtext as h2 with margin */}
+      <h2 className="text-center text-2xl text-white mt-4 md:text-3xl font-neua-machina">
+        Experience Streamlined Dapp Experience
+      </h2>
+
+      {/* Button to open modal */}
+      <div className="relative z-100 mt-12">
+      <a href="/signin">
+        <button
+          className="px-6 py-3 bg-cyan-500 text-white font-semibold text-lg rounded-lg shadow-lg hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75"
+
+        >
+          Get Started
+        </button>
+        </a>
+      </div>
+
+      {/* Modal */}
+//       {isModalOpen && <Modal closeModal={() => setIsModalOpen(false)} />}
     </WaterContainer>
   );
 }
@@ -57,7 +69,7 @@ export const WaterContainer = ({ children, className }: WaterContainerProps) => 
         ))}
       </div>
 
-      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
+      <div className="relative z-50 flex flex-col items-center px-5">
         {children}
       </div>
 
@@ -89,38 +101,74 @@ export const WaterContainer = ({ children, className }: WaterContainerProps) => 
             transform: translateY(110vh); /* Go past the viewport */
           }
         }
-
-        /* Ripple effect after droplets hit the ground */
-        .ripple {
-          position: absolute;
-          bottom: 0;
-          width: 15px;
-          height: 15px;
-          background: rgba(255, 255, 255, 0.5);
-          border-radius: 50%;
-          animation: ripple 2s infinite ease-in-out;
-        }
-
-        @keyframes ripple {
-          0% {
-            transform: scale(0);
-            opacity: 1;
-          }
-          100% {
-            transform: scale(4);
-            opacity: 0;
-          }
-        }
       `}</style>
-      <div className="relative z-100 mt-12">
-      <a href="/signin">
-        <button
-          className="px-6 py-3 bg-cyan-500 text-white font-semibold text-lg rounded-lg shadow-lg hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-opacity-75"
-        >
-          Get Started
-        </button>
-      </a>
-      </div>
     </div>
   );
 };
+
+// // Modal Component
+// interface ModalProps {
+//   closeModal: () => void;
+// }
+//
+// const Modal = ({ closeModal }: ModalProps) => {
+//   const handleLogin = () => {
+//     alert("Login clicked!");
+//     closeModal(); // Close modal after action
+//   };
+//
+//   const handleSignup = () => {
+//     alert("Signup clicked!");
+//     closeModal(); // Close modal after action
+//   };
+//
+//   return (
+//     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+//       <div className="bg-white rounded-lg shadow-lg p-8 w-104"> {/* Increased modal width */}
+//         <h2 className="text-2xl font-bold mb-6 text-center font-neua-machina">Choose an Option</h2>
+//
+//         {/* Stacked buttons */}
+//         <div className="space-y-4"> {/* Adds vertical spacing */}
+//           <button
+//             className="w-full py-5 bg-blue-400 text-white rounded-lg hover:bg-blue-500" // Changed to warm blue
+//             onClick={handleLogin} // Action for Login button
+//           >
+//             Login
+//           </button>
+//           <button
+//             className="w-full py-5 bg-blue-400 text-white rounded-lg hover:bg-blue-500" // Changed to warm blue
+//             onClick={handleSignup} // Action for Signup button
+//           >
+//             Signup
+//           </button>
+//         </div>
+//
+//         <div className="mt-6 text-center">
+//           <button
+//             className="text-gray-500 underline"
+//             onClick={closeModal} // Close the modal on click
+//           >
+//             Close
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// Additional CSS for warm blue colors
+<style jsx global>{`
+  @import url('https://fonts.googleapis.com/css2?family=Neua+Machina:wght@400;700&display=swap');
+
+  body {
+    font-family: 'Neua Machina', sans-serif;
+  }
+
+  .bg-blue-400 {
+    background-color: #60a5fa; /* Warm blue color */
+  }
+
+  .hover\\:bg-blue-500:hover {
+    background-color: #3b82f6; /* Slightly darker warm blue */
+  }
+`}</style>
