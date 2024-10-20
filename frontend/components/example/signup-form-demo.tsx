@@ -49,8 +49,9 @@ export default function Signup() {
     try {
       const response = await axios.post('http://localhost:3001/api/users/register', { email, password });
       // If registration is successful, store the token
+      return response.data;
     } catch (error) {
-      if (error.response) {
+      if (error.response && error.response.data.error) {
         return { error: error.response.data.error };
       } else {
         return { error: 'Something went wrong!' };
