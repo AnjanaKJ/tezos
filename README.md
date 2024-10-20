@@ -14,15 +14,15 @@ DeFindexes is a decentralized finance (DeFi) indexing platform built on the Tezo
 
 - Frontend: Next.js
 - Backend: Node.js
-- Database: (specify the database used, e.g., MongoDB, PostgreSQL)
+- Database: (MongoDB)
 - Blockchain: Tezos
 
 ## Installation
 
 1. Clone the repository:
    
-   git clone https://github.com/yourusername/DeFindexes.git
-   cd DeFindexes
+   git clone https://github.com/AnjanaKJ/tezos
+   cd tezos
    
 
 2. Install the necessary dependencies for both frontend and backend:
@@ -37,7 +37,7 @@ DeFindexes is a decentralized finance (DeFi) indexing platform built on the Tezo
    
 
 3. Set up your environment variables:
-   - Create a .env file in both the frontend and backend directories and add your configurations (e.g., API keys, database URLs).
+   - Create a .env file in both the frontend and backend directories and add your configurations (JWT Token and Admin secret key).
 
 ## Usage
 
