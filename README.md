@@ -1,4 +1,4 @@
-# DeFindexes
+# DeFinIn
 
 DeFindexes is a decentralized finance (DeFi) indexing platform built on the Tezos blockchain. It allows users to efficiently manage and access decentralized finance data and services.
 
