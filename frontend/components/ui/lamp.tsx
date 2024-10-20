@@ -9,7 +9,7 @@ export default function Lamp() {
   return (
   <>
   <Navbar/>
-    {/* <LampContainer> */}
+    <LampContainer>
       
       
       
