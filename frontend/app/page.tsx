@@ -1,5 +1,8 @@
 import Waterfall from "@/components/ui/lamp";
 import SignupForm from "@/components/example/signup-form-demo";
+import DepositCard from "@/components/ui/DepositCard";
+import Link from "next/link";
+import Waterfall from "@/components/ui/lamp";
 
 export default function Home() {
   return (

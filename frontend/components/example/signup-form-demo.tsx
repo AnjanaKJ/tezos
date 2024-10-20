@@ -3,38 +3,80 @@ import React, { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 
-export default function SignupForm() {
+export default function Signup() {
   const [isSparkling, setIsSparkling] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignup, setIsSignup] = useState(true); // Toggle between login and signup
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const registerUser = async (email: string, password: string) => {
+    try {
+      const response = await axios.post('http://localhost:3001/api/users/register', { email, password });
+      // If registration is successful, store the token
+    } catch (error) {
+      if (error.response) {
+        return { error: error.response.data.error };
+      } else {
+        return { error: 'Something went wrong!' };
+      }
+    }
+  };
+
+  const loginUser = async (email: string, password: string) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
+      if (response.data && response.data.token) {
+        const token = response.data.token;
+        localStorage.setItem('token', token);
+        console.log(token);
+        return response.data;
+      }
+    } catch (error) {
+      if (error.response) {
+        return { error: error.response.data.error };
+      } else {
+        return { error: 'Something went wrong!' };
+      }
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email = (e.target as any).email.value;
-    const newPassword = (e.target as any).newPassword.value;
-    const reEnterPassword = (e.target as any).reEnterPassword.value;
+    const password = (e.target as any).password.value;
 
-    if (!email || !newPassword || !reEnterPassword) {
+    if (!email || !password) {
       setPopupMessage("Please fill in all the relevant fields.");
       setShowPopup(true);
       return;
     }
 
-    if (newPassword !== reEnterPassword) {
-      setPopupMessage("Password is not the same.");
-      setShowPopup(true);
-      return;
-    }
+    const result = isSignup ? await registerUser(email, password) : await loginUser(email, password);
 
-    setIsSparkling(true);
-    setTimeout(() => {
-      setIsSparkling(false);
-    }, 1000);
+    if (result.error) {
+      setPopupMessage(result.error);
+      setShowPopup(true);
+    } else {
+      setPopupMessage(isSignup ? "Registration successful! Token stored." : "Login successful! Token stored.");
+      setShowPopup(true);
+      setIsSparkling(true);
+
+      setTimeout(() => {
+        setIsSparkling(false);
+      }, 1000);
+    }
   };
 
   const handleClosePopup = () => {
     setShowPopup(false);
+  };
+
+  const toggleAuthMode = () => {
+    setIsSignup(!isSignup);
   };
 
   return (
@@ -43,8 +85,8 @@ export default function SignupForm() {
         <div className="text-xl font-bold text-neutral-800 dark:text-neutral-200 ml-3">
           DeFin
         </div>
-        <button className="bg-blue-500 text-white rounded-md px-4 py-2 mr-3">
-          Home
+        <button className="bg-blue-500 text-white rounded-md px-4 py-2 mr-3" onClick={toggleAuthMode}>
+          {isSignup ? "Login" : "Sign up"}
         </button>
       </nav>
 
@@ -62,28 +104,22 @@ export default function SignupForm() {
                 <Input
                   id="email"
                   name="email"
-                  placeholder="you@example.com"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
                   className="border-neutral-300 focus:border-violet-500 focus:ring-violet-500"
                 />
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
-                <Label htmlFor="new-password">New Password</Label>
+                <Label htmlFor="password">{isSignup ? "New Password" : "Password"}</Label>
                 <Input
-                  id="new-password"
-                  name="newPassword"
+                  id="password"
+                  name="password"
                   placeholder="••••••••"
                   type="password"
-                  className="border-neutral-300 focus:border-violet-500 focus:ring-violet-500"
-                />
-              </LabelInputContainer>
-              <LabelInputContainer className="mb-8">
-                <Label htmlFor="re-enter-password">Re-enter New Password</Label>
-                <Input
-                  id="re-enter-password"
-                  name="reEnterPassword"
-                  placeholder="••••••••"
-                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="border-neutral-300 focus:border-violet-500 focus:ring-violet-500"
                 />
               </LabelInputContainer>
@@ -94,7 +130,7 @@ export default function SignupForm() {
                 } block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] transition duration-300`}
                 type="submit"
               >
-                Sign up &rarr; {/* Changed from "Sign up" to "Get Started" */}
+                {isSignup ? "Sign up" : "Login"} &rarr;
                 <BottomGradient />
               </button>
             </form>

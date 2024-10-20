@@ -10,10 +10,11 @@ const faucetSecretKey = process.env.FAUCETSECRETKEY; // Replace with your Ghostn
 
 const fundWalletWithTestnetTokens = async (req, res) => {
   try {
-    const { walletAddress } = req.body;
+    const {  amount } = req.body;
+    const walletAddress = req.user.wallet.publicKeyHash;
 
-    if (!walletAddress) {
-      return res.status(400).json({ error: 'Wallet address is required' });
+    if (!walletAddress || !amount) {
+      return res.status(400).json({ error: 'Wallet address and amount are required' });
     }
 
     // Set up the faucet account as the signer
@@ -21,17 +22,19 @@ const fundWalletWithTestnetTokens = async (req, res) => {
       signer: await InMemorySigner.fromSecretKey(faucetSecretKey),
     });
 
-    const amountToSend = 10000;
+    // Convert the amount to mutez (smallest unit in Tezos)
+    const amountInMutez = Math.floor(amount * 1000000);
 
+    // Perform the transfer
     const operation = await Tezos.contract.transfer({
       to: walletAddress,
-      amount: amountToSend / 1000000,
+      amount: amountInMutez / 1000000, // amount is divided by 1,000,000 to convert to XTZ
     });
 
     await operation.confirmation();
 
     res.status(200).json({
-      message: 'Testnet tokens funded successfully!',
+      message: `Successfully funded ${amount} XTZ to wallet ${walletAddress}`,
       operationHash: operation.hash,
     });
 
@@ -44,4 +47,3 @@ const fundWalletWithTestnetTokens = async (req, res) => {
 module.exports = {
   fundWalletWithTestnetTokens,
 };
-
