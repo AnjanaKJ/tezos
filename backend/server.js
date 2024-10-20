@@ -4,9 +4,9 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoute = require('./routes/userRoute');
-const depositeRoute = require('./routes/depositeRoute');
-//const stockRoute = require('./routes/stockRoute');
-//const emailRoute = require('./routes/emailRoute');
+const depositRoute = require('./routes/depositRoute');
+const transferRoute = require('./routes/transferRoute');
+const balanceRoute = require('./routes/balanceRoute');
 //const companyRoute = require('./routes/companyRoute');
 //const CompanyStock = require('./models/CompanyStock');
 
@@ -22,9 +22,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/users', userRoute);
-app.use('/api/deposit', depositeRoute);
-//app.use('/api/users', emailRoute);
-//app.use('/api/stock', stockRoute);
+app.use('/api/deposit', depositRoute);
+app.use('/api/transfer', transferRoute);
+app.use('/api/balance', balanceRoute);
 //app.use('/api/list', companyRoute);
 
 mongoose.connect('mongodb://127.0.0.1:27017/tezos', {
